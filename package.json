@@ -1,0 +1,33 @@
+{
+  "name": "store",
+  "version": "0.0.1",
+  "description": "Lightweight Javascript store to store state and subscribe to state changes.",
+  "main": "src/store.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsc --watch",
+    "test": "mocha -r ts-node/register -w --watch-files ./test/**/*.ts ./test/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olefjaerestad/store.git"
+  },
+  "keywords": [
+    "store"
+  ],
+  "author": "Ole Kristian Fjærestad",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/olefjaerestad/store/issues"
+  },
+  "homepage": "https://github.com/olefjaerestad/store#readme",
+  "dependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.11",
+    "chai": "^4.2.0",
+    "mocha": "^7.2.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  }
+}
