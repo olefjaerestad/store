@@ -1,28 +1,10 @@
 {
-  "name": "store",
-  "version": "0.0.1",
-  "description": "Lightweight Javascript store to store state and subscribe to state changes.",
-  "main": "src/store.ts",
-  "type": "module",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch --noEmit",
-    "test": "mocha -r ts-node/register -w --extension ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/olefjaerestad/store.git"
-  },
-  "keywords": [
-    "store"
-  ],
   "author": "Ole Kristian Fjærestad",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/olefjaerestad/store/issues"
   },
-  "homepage": "https://github.com/olefjaerestad/store#readme",
-  "dependencies": {
+  "description": "Lightweight Javascript store to store state and subscribe to state changes.",
+  "devDependencies": {
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.11",
@@ -30,5 +12,24 @@
     "mocha": "^7.2.0",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
-  }
+  },
+  "homepage": "https://github.com/olefjaerestad/store#readme",
+  "keywords": [
+    "store"
+  ],
+  "license": "MIT",
+  "main": "build/store.js",
+  "name": "@olefjaerestad/store",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olefjaerestad/store.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --noEmit",
+    "publish:npm": "npm run build && npm publish --access public",
+    "test": "mocha -r ts-node/register -w --extension ts"
+  },
+  "type": "module",
+  "version": "0.0.2"
 }

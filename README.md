@@ -1,6 +1,11 @@
 # Store
 Lightweight Javascript store to store state and subscribe to state changes.
 
+## Install
+```bash
+npm i @olefjaerestad/store
+```
+
 ## API/examples
 
 ### Create a state store.
@@ -9,7 +14,7 @@ The Store class takes two parameters:
 - The actions: An object containing functions that can perform CRUD operations on the state. You decide for yourself whether you want to use this or modify the state directly. Can contain both sync and async functions, but to be able to access `this` within, they must not be arrow functions.
 
 ```javascript
-import { Store } from 'store';
+import { Store } from '@olefjaerestad/store';
 
 const store = new Store(
 	{
@@ -98,7 +103,13 @@ npm run build
 > Note: Build will fail and report if there are errors.
 
 ## Publishing
-Todo: How to publish to npm.
+Publish to npm:
+
+```bash
+npm run publish:npm
+```
+
+> Note: requires being [logged in to npm locally](https://docs.npmjs.com/cli/adduser).
 
 ## Todos (prioritized order)
 - Automatic cross-browser testing.
