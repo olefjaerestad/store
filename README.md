@@ -60,6 +60,7 @@ store.state.myObj.baz = 'I\'m a new value'; // myCallback is fired.
 ```
 
 > Note: Subscribed callbacks will fire _after_ the new value is set.
+
 > Note 2: Subscribed callbacks will fire on changes to both direct and nested properties of store.state, i.e. `store.state.myObj` and `store.state.myObj.baz`.
 
 ### Unsubscribe from state changes
