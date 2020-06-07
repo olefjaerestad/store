@@ -1,7 +1,7 @@
 # Store
 Lightweight Javascript store to store state and subscribe to state changes.
 
-## Install
+## Installation
 ```bash
 npm i @olefjaerestad/store
 ```
