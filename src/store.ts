@@ -17,7 +17,7 @@
  * store.state.myObj.baz = 'I'm a new value';
  * store.unsubscribe(myCallback); // cleanup
  * @example - using an action to update state:
- * const store = new Store({foo: 'bar'}, {setFoo(val) {this.state.foo = val}});
+ * const store = new Store({foo: 'bar'}, {setFoo: function(val) {this.state.foo = val}});
  * store.actions.setFoo('baz);
  * 
  * @author Ole Fjaerestad
@@ -27,24 +27,30 @@
  * https://github.com/tc39/proposal-class-fields#private-fields
  */
 export class Store {
+	/** Object containing user-defined functions for interacting with the state. Passed as parameter to `new Store()`. */
 	public actions: {[key: string]: Function} = {};
+	/** Object containing the state. Initial value is passed as parameter to `new Store()`. */
 	public state: {[key: string]: any};
+	/** Private. Array of subscribed callbacks. */
 	private subscribedCallbacks: Array<Function> = [];
-	private proxyHandler = {
-		get: (obj, prop, receiver) => {
+	// #subscribedCallbacks: Array<Function> = []; // Not good enough browser support for private members yet.
+	/** Private. Proxy logic responsible for state getters/setters. */
+	private proxyHandler: {get: any, set: any} = {
+		get: (obj: {[key: string]: any}, prop: string|number, proxy: any): any => {
 			if (typeof obj[prop] === 'object' && obj[prop] !== null) {
 				return new Proxy(obj[prop], this.proxyHandler);
 			}
 			return obj[prop];
 		},
-		set: (obj, prop, value, receiver) => {
+		set: (obj: {[key: string]: any}, prop: string|number, value: any, proxy: any) => { // TODO?: Return promise instead of boolean?
 			const prevValue = obj[prop];
 			obj[prop] = value;
 			this.subscribedCallbacks.forEach(cb => cb(prop, value, prevValue, obj, this.state));
 			return true;
-		}
+		},
 	}
 
+	/** Create a new state store. `Store.state.prop = val` to update state. */
 	constructor(initialState: {[key: string]: any}, actions?: {[key: string]: Function}) {
 		if (!!actions) {
 			for (const action of Object.keys(actions)) {
@@ -54,23 +60,28 @@ export class Store {
 
 		this.state = new Proxy(initialState, this.proxyHandler);
 	}
-	// #subscribedCallbacks = []; // Not good enough browser support for private members yet.
-	subscribe(callback: Function) { // Todo: Describe callback params better.
+	/** Run callback when state changes. */
+	subscribe(callback: (prop?: string|number, value?: any, prevValue?: any, obj?: {[key: string]: any}, state?: {[key: string]: any}) => any): boolean {
 		try {
 			if ( typeof callback !== 'function' ) {
 				throw new Error(`Subscribe callback must be a function. Received ${typeof callback}.`);
 			}
 			this.subscribedCallbacks.push(callback);
+			return true;
 		} catch(e) {
 			console.warn(e);
+			return false;
 		}
 	}
-	unsubscribe(callback: Function) { // Todo: Describe callback params better.
+	/** Stop running callback when state changes. Callback must be registered with `subscribe` first. */
+	unsubscribe(callback: (prop?: string|number, value?: any, prevValue?: any, obj?: {[key: string]: any}, state?: {[key: string]: any}) => any): boolean {
 		const index = this.subscribedCallbacks.indexOf(callback);
 		if (index >= 0) {
 			this.subscribedCallbacks.splice(this.subscribedCallbacks.indexOf(callback), 1);
+			return true;
 		} else {
 			console.warn('Callback passed to unsubscribe() was never registered with subscribe(). Unsubscription unsuccessful.');
+			return false;
 		}
 	}
 }

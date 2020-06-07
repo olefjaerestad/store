@@ -5,8 +5,9 @@
   "main": "src/store.ts",
   "type": "module",
   "scripts": {
-    "dev": "tsc --watch",
-    "test": "mocha -r ts-node/register -w --watch-files ./test/**/*.ts ./test/**/*.ts"
+    "build": "tsc",
+    "dev": "tsc --watch --noEmit",
+    "test": "mocha -r ts-node/register -w --extension ts"
   },
   "repository": {
     "type": "git",

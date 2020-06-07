@@ -1,9 +1,13 @@
 {
 	"compilerOptions": {
+		"allowUnreachableCode": false,
 		"alwaysStrict": true,
 		"declaration": true,
 		"declarationMap": true,
+		"listEmittedFiles": true,
 		"noEmitOnError": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
 		"outDir": "build",
 		"target": "ES6"
 	},
