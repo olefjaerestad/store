@@ -80,6 +80,7 @@ npm run dev
 Then just start editing the code in `/src`. If using an editor with good TypeScript support (e.g. VS Code), any errors will be inlined in the code as well.
 
 > Note: Dev produces no output files.
+
 > Note2: No testing in browser (yet), so it's recommended running tests alongside developing.
 
 ## Testing
