@@ -42,7 +42,7 @@ export class Store {
 			}
 			return obj[prop];
 		},
-		set: (obj: {[key: string]: any}, prop: string|number, value: any, proxy: any) => { // TODO?: Return promise instead of boolean?
+		set: (obj: {[key: string]: any}, prop: string|number, value: any, proxy: any) => {
 			const prevValue = obj[prop];
 			obj[prop] = value;
 			this.subscribedCallbacks.forEach(cb => cb(prop, value, prevValue, obj, this.state));

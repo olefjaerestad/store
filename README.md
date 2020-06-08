@@ -77,6 +77,25 @@ store.unsubscribe(myCallback);
 store.state.myObj.baz = 'I\'m another new value'; // 'myCallback is fired' is no longer logged, since we unsubscribed.
 ```
 
+## Browser support
+
+| Browser       | Supported? |
+|---------------|------------|
+| Chrome >= 49             | [x]        |
+| Firefox >= 18            | [x]        |
+| Safari >= 10             | [x]        |
+| Opera >= 36              | [x]        |
+| Edge >= 12               | [x]        |
+| Explorer                 | []         |
+| Chrome for Android > 49  | [x]        |
+| Firefox for Android > 18 | [x]        |
+| Opera for Android > 36   | [x]        |
+| Safari for iOS > 10      | [x]        |
+| Node.js > 6.0.0          | [x]        |
+
+
+> Note: For increased browser support, you can use the [Proxy polyfill](https://github.com/GoogleChrome/proxy-polyfill)
+
 ## Developing
 ```bash
 npm run dev
@@ -89,11 +108,21 @@ Then just start editing the code in `/src`. If using an editor with good TypeScr
 > Note2: No testing in browser (yet), so it's recommended running tests alongside developing.
 
 ## Testing
+Unit testing:
+
 ```bash
 npm run test
 ```
 
-> Note: Tests will fail to run if there are errors in the tests themselves.
+> Note: Unit tests will fail to run if there are errors in the tests themselves.
+
+Integration testing:
+
+```bash
+npm run test:browsers
+```
+
+This will open a separate window where you can choose which browser to test in. Note that browsers are limited to browsers that are installed on your system _and_ [supported by Cypress](https://docs.cypress.io/guides/guides/launching-browsers.html#Browsers).
 
 ## Building
 ```bash
@@ -110,6 +139,3 @@ npm run publish:npm
 ```
 
 > Note: requires being [logged in to npm locally](https://docs.npmjs.com/cli/adduser).
-
-## Todos (prioritized order)
-- Automatic cross-browser testing.

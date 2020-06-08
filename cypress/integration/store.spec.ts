@@ -1,7 +1,6 @@
-import { Store } from '../src/store';
-const {
-	expect,
-} = require('chai');
+/// <reference types="cypress" />
+
+import { Store } from '../../src/store';
 
 const store = new Store(
 	{
@@ -26,7 +25,7 @@ describe('Store', () => {
 		const subscriber = (prop: string) => prop === 'name' ? isSubscribed = true : null;
 		store.subscribe(subscriber);
 		store.state.name = 'My new name';
-		expect(isSubscribed).to.be.true;
+		expect(isSubscribed).to.equal(true);
 	});
 	it('Should be unsubscribeable.', () => {
 		let isSubscribed = false;
@@ -34,6 +33,6 @@ describe('Store', () => {
 		store.subscribe(subscriber);
 		store.unsubscribe(subscriber);
 		store.state.name = 'My new name';
-		expect(isSubscribed).to.be.false;
+		expect(isSubscribed).to.equal(false);
 	});
 });
