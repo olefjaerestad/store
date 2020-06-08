@@ -81,7 +81,6 @@ store.state.myObj.baz = 'I\'m another new value'; // 'myCallback is fired' is no
 
 | Browser                  | Supported? |
 | :--                      | :--        |
-|--------------------------|------------|
 | Chrome >= 49             | ✅         |
 | Firefox >= 18            | ✅         |
 | Safari >= 10             | ✅         |
