@@ -79,19 +79,20 @@ store.state.myObj.baz = 'I\'m another new value'; // 'myCallback is fired' is no
 
 ## Browser support
 
-| Browser       | Supported? |
-|---------------|------------|
-| Chrome >= 49             | ✅        |
-| Firefox >= 18            | ✅        |
-| Safari >= 10             | ✅        |
-| Opera >= 36              | ✅        |
-| Edge >= 12               | ✅        |
-| Explorer                 | ❌        |
-| Chrome for Android > 49  | ✅        |
-| Firefox for Android > 18 | ✅        |
-| Opera for Android > 36   | ✅        |
-| Safari for iOS > 10      | ✅        |
-| Node.js > 6.0.0          | ✅        |
+| Browser                  | Supported? |
+| :--                      | :--        |
+|--------------------------|------------|
+| Chrome >= 49             | ✅         |
+| Firefox >= 18            | ✅         |
+| Safari >= 10             | ✅         |
+| Opera >= 36              | ✅         |
+| Edge >= 12               | ✅         |
+| Explorer                 | ❌         |
+| Chrome for Android > 49  | ✅         |
+| Firefox for Android > 18 | ✅         |
+| Opera for Android > 36   | ✅         |
+| Safari for iOS > 10      | ✅         |
+| Node.js > 6.0.0          | ✅         |
 
 
 > Note: For increased browser support, you can use the [Proxy polyfill](https://github.com/GoogleChrome/proxy-polyfill)
