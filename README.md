@@ -105,8 +105,6 @@ Then just start editing the code in `/src`. If using an editor with good TypeScr
 
 > Note: Dev produces no output files.
 
-> Note2: No testing in browser (yet), so it's recommended running tests alongside developing.
-
 ## Testing
 Unit testing:
 
