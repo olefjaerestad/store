@@ -17,22 +17,22 @@ The Store class takes two parameters:
 import { Store } from '@olefjaerestad/store';
 
 const store = new Store(
-	{
-		foo: 'bar',
-		myObj: {
-			baz: 'Hello'
-		},
-		someAsyncVal: 'baz',
-	},
-	{
-		setFoo: function(val) { // To have access to 'this', it must not be arrow function.
-			this.foo = val
-		},
-		setSomeAsyncVal: async function(val) {
-			const newValue = await somePromise(val);
-			this.someAsyncVal = newValue;
-		}
-	}
+  {
+    foo: 'bar',
+    myObj: {
+      baz: 'Hello'
+    },
+    someAsyncVal: 'baz',
+  },
+  {
+  setFoo: function(val) { // To have access to 'this', it must not be arrow function.
+      this.foo = val
+    },
+    setSomeAsyncVal: async function(val) {
+      const newValue = await somePromise(val);
+      this.someAsyncVal = newValue;
+    }
+  }
 );
 ```
 
@@ -137,6 +137,3 @@ npm run publish:npm
 ```
 
 > Note: requires being [logged in to npm locally](https://docs.npmjs.com/cli/adduser).
-
-## TODOs
-- Add support for `store.addEventListener('change', 'propName' | ['propName', 'propName2'], (prop, value, prevValue, obj, state) => {});`.
