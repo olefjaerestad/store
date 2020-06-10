@@ -5,7 +5,10 @@ import { Store } from '../../src/store';
 const store = new Store(
 	{
 		name: 'My name',
-		age: 123,
+		obj: {
+			foo: 'bar',
+			lorem: 'ipsum',
+		},
 	},
 	{
 		setName: function(name: string) {
@@ -34,5 +37,12 @@ describe('Store', () => {
 		store.unsubscribe(subscriber);
 		store.state.name = 'My new name';
 		expect(isSubscribed).to.equal(false);
+	});
+	it('Subscribed callbacks should run on nested property changes.', () => {
+		let isSubscribed = false;
+		const subscriber = (prop: string) => prop === 'foo' ? isSubscribed = true : null;
+		store.subscribe(subscriber);
+		store.state.obj.foo = 'baz';
+		expect(isSubscribed).to.be.true;
 	});
 });
