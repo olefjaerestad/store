@@ -137,3 +137,6 @@ npm run publish:npm
 ```
 
 > Note: requires being [logged in to npm locally](https://docs.npmjs.com/cli/adduser).
+
+## TODOs
+- Add support for `store.addEventListener('change', 'propName' | ['propName', 'propName2'], (prop, value, prevValue, obj, state) => {});`.
