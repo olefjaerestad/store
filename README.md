@@ -102,23 +102,22 @@ The package supports typings through a .d.ts file. The following named exports a
 
 | Browser                  | Supported? |
 | :--                      | :--        |
-| Chrome >= 49             | ✅         |
-| Firefox >= 45            | ✅         |
-| Safari >= 10             | ✅         |
-| Opera >= 36              | ✅         |
-| Edge >= 13               | ✅         |
+| Chrome >= 60             | ✅         |
+| Firefox >= 55            | ✅         |
+| Safari >= 11.1           | ✅         |
+| Opera >= 47              | ✅         |
+| Edge >= 79               | ✅         |
 | Internet Explorer        | ❌         |
-| Chrome for Android > 49  | ✅         |
-| Firefox for Android > 45 | ✅         |
-| Opera for Android > 36   | ✅         |
-| Safari for iOS > 10      | ✅         |
-| Node.js > 6.0.0          | ✅         |
+| Chrome for Android > 60  | ✅         |
+| Firefox for Android > 55 | ✅         |
+| Opera for Android > 44   | ✅         |
+| Safari for iOS > 11.3    | ✅         |
+| Node.js > 8.3.0          | ✅         |
 
 Browser support is mainly affected by use of the following:
 - [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
 - [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
-
-> Note: For increased browser support, you can use the [Proxy polyfill](https://github.com/GoogleChrome/proxy-polyfill)
+- [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
 
 ## Developing
 ```bash
