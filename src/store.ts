@@ -74,7 +74,7 @@ export class Store {
 		this.state = new Proxy({...initialState, _storeMeta: {isStore: true}}, this.proxyHandler);
 	}
 	/** Run callback when state changes. To subscribe to all prop changes, pass empty array to properties or callback as first param. */
-	subscribe(properties?: Array<string|number>|ISubscribeCallback, callback?: ISubscribeCallback): boolean {
+	subscribe(properties: Array<string|number>|ISubscribeCallback, callback?: ISubscribeCallback): boolean {
 		const cb = arguments[arguments.length-1];
 		const props = typeof properties === 'object' ? properties : [];
 
