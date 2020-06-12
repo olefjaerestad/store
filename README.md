@@ -21,28 +21,33 @@ const store = new Store(
     foo: 'bar',
     myObj: {
       baz: 'Hello'
+      foo: 'bar',
     },
     someAsyncVal: 'baz',
   },
   {
   setFoo: function(val) { // To have access to 'this', it must not be arrow function.
-      this.foo = val
+      this.state.foo = val
     },
     setSomeAsyncVal: async function(val) {
       const newValue = await somePromise(val);
-      this.someAsyncVal = newValue;
+      this.state.someAsyncVal = newValue;
     }
   }
 );
 ```
 
+> Note: the property name `_storeMeta` should not be used in the state object, as it is reserved by `Store`.
+
 ### Update state
 Using actions:
+
 ```javascript
 store.actions.setFoo('Hello World');
 ```
 
 Or directly:
+
 ```javascript
 store.state.foo = 'Hello World';
 ```
@@ -58,15 +63,26 @@ store.actions.setFoo('Hello World');
 ```
 
 ### Subscribe to state changes
+Subscribe to all state changes:
+
 ```javascript
 const myCallback = (prop, value, prevValue, obj, state) => console.log(prop, value, prevValue, obj, state);
 store.subscribe(myCallback); // myCallback will fire whenever a property of store.state changes.
 store.state.myObj.baz = 'I\'m a new value'; // myCallback is fired.
 ```
 
-> Note: Subscribed callbacks will fire _after_ the new value is set.
+> Note: Subscribed callbacks registered this way will fire on changes to both direct and nested properties of store.state, i.e. `store.state.myObj` and `store.state.myObj.baz`.
 
-> Note 2: Subscribed callbacks will fire on changes to both direct and nested properties of store.state, i.e. `store.state.myObj` and `store.state.myObj.baz`.
+Subscribe to changes to specific state properties (could be useful for avoiding firing unnecessarily many callbacks = performance increase). This only works for changes to direct (and not nested) properties of state:
+
+```javascript
+const myCallback = (prop, value, prevValue, obj, state) => console.log(prop, value, prevValue, obj, state);
+store.subscribe(['foo'], myCallback); // myCallback will fire whenever store.state.foo changes.
+store.state.foo = 'I\'m a new value'; // myCallback is fired.
+store.state.myObj.foo = 'I\'m a new value'; // myCallback is not fired.
+```
+
+> Note: Subscribed callbacks will fire _after_ the new value is set.
 
 ### Unsubscribe from state changes
 ```javascript
@@ -77,26 +93,40 @@ store.unsubscribe(myCallback);
 store.state.myObj.baz = 'I\'m another new value'; // 'myCallback is fired' is no longer logged, since we unsubscribed.
 ```
 
+## Typescript
+The package supports typings through a .d.ts file. The following named exports are exported from the package:
+- Store: class that creates a store.
+- ISubscribeCallback: interface for the subscribe callbacks.
+
 ## Browser support
 
 | Browser                  | Supported? |
 | :--                      | :--        |
 | Chrome >= 49             | ✅         |
-| Firefox >= 18            | ✅         |
+| Firefox >= 45            | ✅         |
 | Safari >= 10             | ✅         |
 | Opera >= 36              | ✅         |
-| Edge >= 12               | ✅         |
+| Edge >= 13               | ✅         |
 | Internet Explorer        | ❌         |
 | Chrome for Android > 49  | ✅         |
-| Firefox for Android > 18 | ✅         |
+| Firefox for Android > 45 | ✅         |
 | Opera for Android > 36   | ✅         |
 | Safari for iOS > 10      | ✅         |
 | Node.js > 6.0.0          | ✅         |
 
+Browser support is mainly affected by use of the following:
+- [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+- [Proxy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
 
 > Note: For increased browser support, you can use the [Proxy polyfill](https://github.com/GoogleChrome/proxy-polyfill)
 
 ## Developing
+```bash
+npm i
+```
+
+&
+
 ```bash
 npm run dev
 ```
