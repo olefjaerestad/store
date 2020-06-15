@@ -8,7 +8,7 @@ npm i @olefjaerestad/store
 
 ## API/examples
 
-### Create a state store.
+### Create a state store
 The Store class takes two parameters: 
 - The initial state: An object containing state that can be subscribed to. Doesn't have to contain all properties up front (but probably should, for readability).
 - The actions: An object containing functions that can perform CRUD operations on the state. You decide for yourself whether you want to use this or modify the state directly. Can contain both sync and async functions, but to be able to access `this` within, they must not be arrow functions.
@@ -26,7 +26,7 @@ const store = new Store(
     someAsyncVal: 'baz',
   },
   {
-  setFoo: function(val) { // To have access to 'this', it must not be arrow function.
+    setFoo: function(val) { // To have access to 'this', it must not be arrow function.
       this.state.foo = val
     },
     setSomeAsyncVal: async function(val) {
@@ -52,12 +52,12 @@ Or directly:
 store.state.foo = 'Hello World';
 ```
 
-### Accesing state
+### Access state
 ```javascript
 const myObj = store.state.myObj;
 ```
 
-### Accessing actions
+### Access actions
 ```javascript
 store.actions.setFoo('Hello World');
 ```
