@@ -3,7 +3,7 @@
   "bugs": {
     "url": "https://github.com/olefjaerestad/store/issues"
   },
-  "description": "Lightweight Javascript store to store state and subscribe to state changes.",
+  "description": "Lightweight JavaScript store to store state and subscribe to state changes.",
   "devDependencies": {
     "@types/chai": "^4.2.11",
     "@types/cypress": "^1.1.3",

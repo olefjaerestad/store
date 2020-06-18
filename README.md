@@ -1,5 +1,5 @@
 # Store
-Lightweight Javascript store to store state and subscribe to state changes.
+Lightweight JavaScript store to store state and subscribe to state changes.
 
 ## Installation
 ```bash
