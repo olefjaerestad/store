@@ -61,12 +61,12 @@ describe('Store', () => {
 		store.state.name = 'My new name';
 		expect(isSubscribed).to.be.false;
 	});
-	it('Subscribed callbacks registered without specific properties should run on nested property changes.', () => {
+	it('Subscribed callbacks registered without specific properties should not run on nested property changes.', () => {
 		let isSubscribed = false;
 		const subscriber = (prop: string) => prop === 'foo' ? isSubscribed = true : null;
 		store.subscribe(subscriber);
 		store.state.obj.foo = 'baz';
-		expect(isSubscribed).to.be.true;
+		expect(isSubscribed).to.be.false;
 	});
 	it('Subscribed callbacks registered with specific properties should run on changes to direct properties of state.', () => {
 		let isSubscribed = false;

@@ -1,7 +1,7 @@
 /**
  * @description Lets you store state and subscribe to changes to that state.
  * 
- * @param {object} initialState - State that can be subscribed to. Doesn't have to contain all properties up front (but probably should, for readability).
+ * @param {object} initialState - State that can be subscribed to. Must contain all properties up front (values can be undefined).
  * @param {object} actions - An object containing functions that can perform CRUD operations on the state. You decide for yourself whether you want to use this or modify the state directly. Can contain both sync and async functions, but to be able to access `this` within, they must not be arrow functions.
  * 
  * @method subscribe - takes a callback function that accepts the following params: prop, value, prevValue, obj, state
@@ -14,7 +14,7 @@
  * const store = new Store({foo: 'bar', myObj: {baz: 'Hello'}, myArr: [1,2,3]});
  * const myCallback = (prop, value, prevValue, obj, state) => console.log(prop, value, prevValue, obj, state);
  * store.subscribe(myCallback); // myCallback will fire whenever a property of store.state changes.
- * store.state.myObj.baz = 'I'm a new value';
+ * store.state.foo = 'I'm a new value';
  * store.unsubscribe(myCallback); // cleanup
  * @example - using an action to update state:
  * const store = new Store({foo: 'bar'}, {setFoo: function(val) {this.state.foo = val}});
@@ -45,19 +45,22 @@ export class Store {
 	private subscribedCallbacks: Array<ISubscribeCallbackObj> = [];
 	// #subscribedCallbacks: Array<ISubscribeCallbackObj> = []; // Not good enough browser support for private members yet.
 	/** Private. Proxy logic responsible for state getters/setters. */
-	private proxyHandler: {get: any, set: any} = {
-		get: (obj: {[key: string]: any}, prop: string|number, proxy: any): any => {
+	private proxyHandler: {set: any} = {
+		/** Return proxy for objects. Lets us react to changes to nested properties of this.state. 
+		 * Disabled for performance reasons. */
+		/* get: (obj: {[key: string]: any}, prop: string|number, proxy: any): any => {
 			if (typeof obj[prop] === 'object' && obj[prop] !== null) {
 				return new Proxy(obj[prop], this.proxyHandler);
 			}
 			return obj[prop];
-		},
+		}, */
 		set: (obj: {[key: string]: any}, prop: string|number, value: any, proxy: any) => {
 			const prevValue = obj[prop];
-			const isDirectChange = !!obj._storeMeta && !!obj._storeMeta.isStore;
+			// const isDirectChange = !!obj._storeMeta && !!obj._storeMeta.isStore;
 			obj[prop] = value;
 			this.subscribedCallbacks
-				.filter(cb => cb.props.length === 0 || (isDirectChange && cb.props.includes(prop)))
+				// .filter(cb => cb.props.length === 0 || (isDirectChange && cb.props.includes(prop)))
+				.filter(cb => cb.props.length === 0 || cb.props.includes(prop))
 				.forEach(cb => cb.callback(prop, value, prevValue, obj, this.state));
 			return true;
 		},
@@ -71,7 +74,8 @@ export class Store {
 			}
 		}
 
-		this.state = new Proxy({...initialState, _storeMeta: {isStore: true}}, this.proxyHandler);
+		// this.state = new Proxy({...initialState, _storeMeta: {isStore: true}}, this.proxyHandler);
+		this.state = new Proxy(initialState, this.proxyHandler);
 	}
 	/** Run callback when state changes. To subscribe to all prop changes, pass empty array to properties or callback as first param. */
 	subscribe(properties: Array<string|number>|ISubscribeCallback, callback?: ISubscribeCallback): boolean {
