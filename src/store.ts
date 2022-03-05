@@ -27,22 +27,28 @@
  * https://github.com/tc39/proposal-class-fields#private-fields
  */
 
-export interface ISubscribeCallback {
-	(prop?: string|number, value?: any, prevValue?: any, obj?: {[key: string]: any}, state?: {[key: string]: any}): any
+export interface ISubscribeCallback<S extends Record<string | number | symbol, any> = {}> {
+	(
+		prop: keyof S,
+		value?: S[keyof S],
+		prevValue?: S[keyof S],
+		obj?: S,
+		state?: Store<S>['state']
+	): any;
 }
 
-interface ISubscribeCallbackObj {
-	callback: ISubscribeCallback,
-	props: Array<string|number>,
+interface ISubscribeCallbackObj<S extends Record<string | number | symbol, any> = {}> {
+	callback: ISubscribeCallback<S>;
+	props: Array<string | number | symbol>;
 }
 
-export class Store {
+export class Store<S extends Record<string | number | symbol, any>> {
 	/** Object containing user-defined functions for interacting with the state. Passed as parameter to `new Store()`. */
-	public actions: {[key: string]: Function} = {};
+	public actions: Record<string, (this: Store<S>['actions'], ...rest: any[]) => any> = {};
 	/** Object containing the state. Initial value is passed as parameter to `new Store()`. */
-	public state: {[key: string]: any};
+	public state: S;
 	/** Private. Array of subscribed callbacks. */
-	private subscribedCallbacks: Array<ISubscribeCallbackObj> = [];
+	private subscribedCallbacks: ISubscribeCallbackObj<S>[] = [];
 	// #subscribedCallbacks: Array<ISubscribeCallbackObj> = []; // Not good enough browser support for private members yet.
 	/** Private. Proxy logic responsible for state getters/setters. */
 	private proxyHandler: {set: any} = {
@@ -54,7 +60,7 @@ export class Store {
 			}
 			return obj[prop];
 		}, */
-		set: (obj: {[key: string]: any}, prop: string|number, value: any, proxy: any) => {
+		set: (obj: S, prop: keyof S, value: S[keyof S], proxy: any) => {
 			const prevValue = obj[prop];
 			// const isDirectChange = !!obj._storeMeta && !!obj._storeMeta.isStore;
 			obj[prop] = value;
@@ -67,7 +73,7 @@ export class Store {
 	}
 
 	/** Create a new state store. `Store.state.prop = val` to update state. */
-	constructor(initialState: {[key: string]: any}, actions?: {[key: string]: Function}) {
+	constructor(initialState: S, actions?: Record<string, (this: Store<S>, ...rest: any[]) => any>) {
 		if (!!actions) {
 			for (const action of Object.keys(actions)) {
 				this.actions[action] = actions[action].bind(this);
@@ -75,12 +81,12 @@ export class Store {
 		}
 
 		// this.state = new Proxy({...initialState, _storeMeta: {isStore: true}}, this.proxyHandler);
-		this.state = new Proxy(initialState, this.proxyHandler);
+		this.state = new Proxy<S>(initialState, this.proxyHandler);
 	}
 	/** Run callback when state changes. To subscribe to all prop changes, pass empty array to properties or callback as first param. */
-	subscribe(properties: Array<string|number>|ISubscribeCallback, callback?: ISubscribeCallback): boolean {
+	subscribe(properties: Array<keyof S> | ISubscribeCallback<S>, callback?: ISubscribeCallback<S>): boolean {
 		const cb = arguments[arguments.length-1];
-		const props = typeof properties === 'object' ? properties : [];
+		const props = Array.isArray(properties) ? properties : [];
 
 		try {
 			if ( typeof cb !== 'function' ) {
@@ -97,7 +103,7 @@ export class Store {
 		}
 	}
 	/** Stop running callback when state changes. Callback must be registered with `subscribe` first. */
-	unsubscribe(callback: ISubscribeCallback): boolean {
+	unsubscribe(callback: ISubscribeCallback<S>): boolean {
 		const index = this.subscribedCallbacks.findIndex(cb => cb.callback === callback);
 		if (index >= 0) {
 			this.subscribedCallbacks.splice(index, 1);

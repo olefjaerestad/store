@@ -4,11 +4,14 @@
 		"alwaysStrict": true,
 		"declaration": true,
 		"declarationMap": true,
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
 		"listEmittedFiles": true,
 		"noEmitOnError": true,
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"outDir": "build",
+		"strict": true,
 		"target": "ES6"
 	},
 	"include": [
